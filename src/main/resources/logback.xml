@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <variable name="SIMPLE_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSSZ} [%X{X-B3-TraceId:-NO_TRACE}:%X{X-B3-SpanId:-NO_SPAN}:%X{X-B3-ParentSpanId:-NO_SPAN_PARENT}] [%X{X-Label}] [%thread] %-5level %logger - %msg %n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${SIMPLE_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+    </appender>
+
+    <root>
+        <level value="WARN"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <logger name="com.example" level="DEBUG"/>
+    <logger name="org.springframework.web" level="INFO"/>
+    <logger name="org.springframework.security" level="WARN"/>
+    <!--<logger name="org.flywaydb" level="DEBUG"/>-->
+    <!--<logger name="org.springframework.jdbc.datasource" level="WARN"/>-->
+    <!--<logger name="org.springframework.jdbc.datasource.init" level="WARN"/>-->
+    <!--<logger name="org.hibernate.type" level="WARN"/>-->
+    <!--<logger name="org.hibernate.stat" level="WARN"/>-->
+    <!--<logger name="org.apache.http.wire" level="DEBUG"/>-->
+
+
+</configuration>
+
