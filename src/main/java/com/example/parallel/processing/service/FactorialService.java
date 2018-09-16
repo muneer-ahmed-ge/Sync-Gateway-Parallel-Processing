@@ -1,9 +1,10 @@
-package com.example.concurrent;
+package com.example.parallel.processing.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import com.example.parallel.processing.utils.ConcurrentExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.example.concurrent;
+package com.example.parallel.processing.service;
 
 
 public class InvalidParamaterException extends RuntimeException {

@@ -1,4 +1,4 @@
-package com.example.concurrent;
+package com.example.parallel.processing.utils;
 
 import java.util.ArrayList;
 import java.util.List;
