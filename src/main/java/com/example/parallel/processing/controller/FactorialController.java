@@ -2,12 +2,13 @@ package com.example.parallel.processing.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-import com.example.parallel.processing.utils.ConcurrentExecutor;
 import com.example.parallel.processing.service.FactorialService;
 import com.example.parallel.processing.service.InvalidParamaterException;
+import com.example.parallel.processing.utils.ConcurrentExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,17 +31,17 @@ public class FactorialController {
 
         log.debug("Http Request to calculate factorial input first={} second={}", first, second);
 
-        List<Callable<Integer>> tasks = new ArrayList<>();
+        List<Callable<Optional<Integer>>> tasks = new ArrayList<>();
+
+        tasks.add(() -> Optional.of(factorial(first)));
+        tasks.add(() -> Optional.of(factorial(second)));
 
         tasks.add(() -> {
-            return factorial(first);
+            factorial(second);
+            return Optional.of(factorial(second));
         });
 
-        tasks.add(() -> {
-            return factorial(second);
-        });
-
-        List<Future<Integer>> result = concurrentExecutor.execute("Calculating Factorials", tasks);
+        List<Future<Optional<Integer>>> result = concurrentExecutor.execute("Calculating Factorials", tasks);
 
         StringBuffer buffer = new StringBuffer();
         buffer.append("First Factorial = " + result.get(0).get());
