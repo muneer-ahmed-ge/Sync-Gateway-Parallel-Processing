@@ -16,8 +16,10 @@ public class Node {
     public static int getTotalTime(String traceId, Map<String, Integer> data) {
         Node root = new Node(traceId, data.get(traceId + ":" + traceId), null);
         buildTree(root, data);
-        return root.getTotalTime();
+        return root.computeTotalTime();
     }
+
+    private static final String SEPARATOR = ":";
 
     private final String traceId;
     private final Integer time;
@@ -28,10 +30,10 @@ public class Node {
         children.add(new Node(traceId, time, this));
     }
 
-    private int getTotalTime() {
+    private int computeTotalTime() {
         int max = 0;
         for (Node n : children) {
-            max = Math.max(max, n.getTotalTime());
+            max = Math.max(max, n.computeTotalTime());
         }
         return time + max;
     }
