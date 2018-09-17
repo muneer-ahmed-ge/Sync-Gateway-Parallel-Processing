@@ -22,13 +22,13 @@ public class NodeHelper {
     }
 
     private static void buildTree(Node node, Map<String, Long> data) {
-        data.keySet().stream().filter(e -> e.endsWith(SEPARATOR + node.getTraceId())).
-                forEach(e -> node.addChild(StringUtils.substringBefore(e, SEPARATOR), data.get(e)));
+        data.keySet().stream().filter(e -> e.startsWith(node.getTraceId() + SEPARATOR)).
+                forEach(e -> node.addChild(StringUtils.substringAfter(e, SEPARATOR), data.get(e)));
         node.getChildren().stream().forEach(n -> buildTree(n, data));
     }
 
     private static void childrenKeys(Node n, List<String> keys) {
-        keys.add(n.getTraceId() + "/" + (n.getParent() == null ? "" : n.getParent().getTraceId()));
+        keys.add((n.getParent() == null ? "" : n.getParent().getTraceId()) + SEPARATOR + n.getTraceId());
         n.getChildren().stream().forEach(e -> childrenKeys(e, keys));
     }
 }

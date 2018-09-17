@@ -54,7 +54,7 @@ public class FactorialService {
 
     private int factorial(int number) {
 
-        sleep();
+        sleep(5);
 
         int fact = 1;
         for (int count = number; count > 1; count--) {
@@ -64,9 +64,9 @@ public class FactorialService {
         return fact;
     }
 
-    private static void sleep() {
+    public static void sleep(int max) {
         try {
-            int i = new Random().nextInt((10 - 1) + 1) + 1;
+            int i = new Random().nextInt((max - 1) + 1) + 1;
             log.debug("sleeping for " + i + " seconds");
             Thread.currentThread().sleep(i * 1000);
         } catch (InterruptedException e) {

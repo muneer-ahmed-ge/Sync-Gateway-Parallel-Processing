@@ -35,6 +35,8 @@ public class FactorialController {
 
         String l = first + "!=" + factorial(second);
 
+        FactorialService.sleep(9);
+
         return "Allah ! " + l + " " + p;
     }
 

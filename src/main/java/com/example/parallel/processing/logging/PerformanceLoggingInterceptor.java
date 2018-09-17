@@ -68,8 +68,8 @@ class PerformanceLoggingInterceptor extends AbstractMonitoringInterceptor {
         String traceId = tracer.currentSpan().context().traceIdString();
         HttpServletRequest request = getCurrentRequest();
         long totalExecutionTime = Instant.now().toEpochMilli() - start;
-        log.debug("Recorded Data: " + platformTime);
         long platform = NodeHelper.getTotalTime(traceId, platformTime);
+        log.debug("platformTime: " + platformTime);
         long internal = totalExecutionTime - platform;
         long internalPercentage = (internal * 100) / totalExecutionTime;
         long platformPercentage = (platform * 100) / totalExecutionTime;
