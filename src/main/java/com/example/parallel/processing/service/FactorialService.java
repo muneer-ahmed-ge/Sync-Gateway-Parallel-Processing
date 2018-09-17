@@ -2,6 +2,7 @@ package com.example.parallel.processing.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Callable;
 
 import com.example.parallel.processing.utils.ConcurrentExecutor;
@@ -23,11 +24,13 @@ public class FactorialService {
             throw new InvalidParamaterException("Number cannot be greater than 5");
         }
 
+        int f = factorial(number);
+
         if (number > 5) {
             callAnotherThread(number);
         }
 
-        return factorial(number);
+        return f;
     }
 
     private void callAnotherThread(int number) {
@@ -50,11 +53,25 @@ public class FactorialService {
     }
 
     private int factorial(int number) {
+
+        sleep();
+
         int fact = 1;
         for (int count = number; count > 1; count--) {
             fact = fact * count;
         }
-        log.debug("calculated input={} factorial={}", number, fact);
+        // log.debug("calculated input={} factorial={}", number, fact);
         return fact;
     }
+
+    private static void sleep() {
+        try {
+            int i = new Random().nextInt((10 - 1) + 1) + 1;
+            log.debug("sleeping for " + i + " seconds");
+            Thread.currentThread().sleep(i * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

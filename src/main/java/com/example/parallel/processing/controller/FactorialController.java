@@ -29,25 +29,28 @@ public class FactorialController {
     public String factorial(@RequestParam(name = "first") int first,
                             @RequestParam(name = "second", defaultValue = "3", required = false) int second) throws Exception {
 
-        log.debug("Http Request to calculate factorial input first={} second={}", first, second);
+        // log.debug("Http Request to calculate factorial input first={} second={}", first, second);
 
+        String p = run(first, second);
+
+        String l = first + "!=" + factorial(second);
+
+        return "Allah ! " + l + " " + p;
+    }
+
+    private String run(int first, int second)
+            throws InterruptedException, java.util.concurrent.ExecutionException {
         List<Callable<Optional<Integer>>> tasks = new ArrayList<>();
 
         tasks.add(() -> Optional.of(factorial(first)));
         tasks.add(() -> Optional.of(factorial(second)));
 
-        tasks.add(() -> {
-            factorial(second);
-            return Optional.of(factorial(second));
-        });
-
         List<Future<Optional<Integer>>> result = concurrentExecutor.execute("Calculating Factorials", tasks);
 
         StringBuffer buffer = new StringBuffer();
-        buffer.append("First Factorial = " + result.get(0).get());
-        buffer.append(" Second Factorial = " + result.get(1).get());
-
-        return "Allah ! " + buffer.toString();
+        buffer.append(first + "!=" + result.get(0).get());
+        buffer.append(second + "!=" + result.get(1).get());
+        return buffer.toString();
     }
 
     private Integer factorial(int number) {
