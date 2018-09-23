@@ -7,13 +7,23 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class NodeHelper {
+/**
+ * Helper class to compute the total time for an N-Array Tree
+ *
+ * @author Muneer Ahmed
+ * @version 1.0
+ * @since 2018-09-10
+ */
+
+public class PerformanceNodeHelper {
 
     private static final String SEPARATOR = "/";
 
     public static long getTotalTime(String traceId, Map<String, Long> data) {
-        Node root = new Node(traceId, data.get(traceId + SEPARATOR + traceId), null);
-        data.remove(traceId + SEPARATOR + traceId);
+        StringBuilder rootKey = new StringBuilder(traceId);
+        rootKey.append(SEPARATOR).append(traceId);
+        PerformanceNode root = new PerformanceNode(traceId, data.get(rootKey.toString()), null);
+        data.remove(rootKey.toString());
         buildTree(root, data);
         List<String> keys = new ArrayList<>();
         childrenKeys(root, keys);
@@ -21,13 +31,13 @@ public class NodeHelper {
         return root.getTotalTime();
     }
 
-    private static void buildTree(Node node, Map<String, Long> data) {
+    private static void buildTree(PerformanceNode node, Map<String, Long> data) {
         data.keySet().stream().filter(e -> e.startsWith(node.getTraceId() + SEPARATOR)).
                 forEach(e -> node.addChild(StringUtils.substringAfter(e, SEPARATOR), data.get(e)));
         node.getChildren().stream().forEach(n -> buildTree(n, data));
     }
 
-    private static void childrenKeys(Node n, List<String> keys) {
+    private static void childrenKeys(PerformanceNode n, List<String> keys) {
         keys.add((n.getParent() == null ? "" : n.getParent().getTraceId()) + SEPARATOR + n.getTraceId());
         n.getChildren().stream().forEach(e -> childrenKeys(e, keys));
     }

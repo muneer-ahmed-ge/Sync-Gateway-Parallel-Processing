@@ -15,6 +15,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
+ *
+ *
+ *
+ *
  * @author Muneer Ahmed
  * @version 1.0
  * @since 2018-08-12
@@ -68,7 +72,7 @@ class PerformanceLoggingInterceptor extends AbstractMonitoringInterceptor {
         String traceId = tracer.currentSpan().context().traceIdString();
         HttpServletRequest request = getCurrentRequest();
         long totalExecutionTime = Instant.now().toEpochMilli() - start;
-        long platform = NodeHelper.getTotalTime(traceId, platformTime);
+        long platform = PerformanceNodeHelper.getTotalTime(traceId, platformTime);
         log.debug("platformTime: " + platformTime);
         long internal = totalExecutionTime - platform;
         long internalPercentage = (internal * 100) / totalExecutionTime;
